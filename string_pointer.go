@@ -67,8 +67,11 @@ func (s *StringPointerSchema) Url() *StringPointerSchema {
 			return "Invalid url"
 		},
 		ValidateFunc: func(value *string) bool {
+			if value == nil {
+				return true
+			}
 			uri, err := url.ParseRequestURI(*value)
-			return value == nil || (err == nil && uri.Host != "")
+			return err == nil && uri.Host != ""
 		},
 	}
 
